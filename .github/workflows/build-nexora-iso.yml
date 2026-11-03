@@ -30,11 +30,14 @@ jobs:
             nexora-os-builder:0.1.0 \
             bash /work/build.sh
 
+
       - name: Check generated image
         run: |
           test -s dist/NexoraOS-0.1.0-amd64.iso
-          sha256sum -c dist/NexoraOS-0.1.0-amd64.iso.sha256
+          sed -i 's#^/work/dist/##' dist/NexoraOS-0.1.0-amd64.iso.sha256
+          (cd dist && sha256sum -c NexoraOS-0.1.0-amd64.iso.sha256)
           ls -lh dist
+
 
       - name: Publish ISO as workflow artifact
         uses: actions/upload-artifact@v4
